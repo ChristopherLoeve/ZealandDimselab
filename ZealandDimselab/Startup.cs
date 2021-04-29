@@ -56,6 +56,11 @@ namespace ZealandDimselab
                         options.Conventions.AllowAnonymousToPage("/Items/ItemDetails");
                     }
                 );
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Administrator", policy =>
+                    policy.RequireClaim(ClaimTypes.Role, "admin"));
+            });
             // AUTHENTICATION END //
         }
 

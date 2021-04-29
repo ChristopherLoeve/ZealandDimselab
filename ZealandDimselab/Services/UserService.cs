@@ -104,7 +104,7 @@ namespace ZealandDimselab.Services
                 new Claim(ClaimTypes.Name, email)
             };
 
-            if (email == "Admin@Dimselab") // This checks if the user attempts to login as an administrator account.
+            if (email.ToLower() == "Admin@Dimselab.dk".ToLower()) // This checks if the user attempts to login as an administrator account.
             {
                 claims.Add(new Claim(ClaimTypes.Role, "admin"));
             }
