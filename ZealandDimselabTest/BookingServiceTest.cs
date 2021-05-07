@@ -59,9 +59,9 @@ namespace ZealandDimselabTest
             ////////////////////////////////////////////////////////////////////////////////////
             
             // Arrange
-            var expectedCount = 4;
+            var expectedCount = dbService.GetObjectsAsync().Result.ToList().Count + 1;
 
-            List<Item> Items = new List<Item>() { new Item("Raspery Pi", "minicomputer") };
+            List<Item> Items = new List<Item>() { new Item("Thanoscopter", "peak comedy") };
             List<BookingItem> bookingItems = new List<BookingItem>();
 
             foreach (var item in Items) // Nyt
@@ -74,60 +74,96 @@ namespace ZealandDimselabTest
             await bookingService.AddBookingAsync(booking);
 
             // Act
-            var actualCount = bookingService.GetAllBookings().ToList().Count;
+            var actualCount = dbService.GetObjectsAsync().Result.ToList().Count;
 
             // Assert
             Assert.AreEqual(expectedCount, actualCount);
         }
 
-        //[TestMethod]
-        //public async Task UpdateBookingAsync_UpdateExsitingBooking_ReturnsUpdatedObject()
-        //{
-        //    // Arrange
-        //    Booking booking = await bookingService.GetBookingByKeyAsync(2);
-        //    List<Item> expecteItems = new List<Item>() { new Item("Batmobil", "luksusbil") };
-        //    User expecteUser = new User("daddycool", "batman@secret.com", "007Jamesbond");
+        [TestMethod]
+        public async Task UpdateBookingAsync_UpdateExsitingBooking_ReturnsUpdatedObject()
+        {
+            //// Arrange
+            //Booking booking = await bookingService.GetBookingByKeyAsync(2);
+            //List<Item> expecteItems = new List<Item>() { new Item("Batmobil", "luksusbil") };
+            //User expecteUser = new User("daddycool", "batman@secret.com", "007Jamesbond");
 
 
-        //    // Act
-        //    booking.Items = expecteItems;
-        //    booking.User = expecteUser;
-        //    await bookingService.UpdateBookingAsync(booking);
-        //    Booking actualBooking = await bookingService.GetBookingByKeyAsync(2);
+            //// Act
+            //booking.Items = expecteItems;
+            //booking.User = expecteUser;
+            //await bookingService.UpdateBookingAsync(booking);
+            //Booking actualBooking = await bookingService.GetBookingByKeyAsync(2);
 
-        //    // Assert
-        //    Assert.AreEqual(expecteItems, actualBooking.Items);
-        //    Assert.AreEqual(expecteUser, actualBooking.User);
-        //}
+            //// Assert
+            //Assert.AreEqual(expecteItems, actualBooking.Items);
+            //Assert.AreEqual(expecteUser, actualBooking.User);
 
-        //[TestMethod]
-        //public async Task GetBookingByIdAsync_ValidId_ReturnsBookingObject()
-        //{
-        //    string expectedDetials = "Details";
+            // Arrange
+            Booking booking = await bookingService.GetBookingByKeyAsync(2);          
+            User expecteUser = new User("daddycool", "batman@secret.com", "007Jamesbond");
+            List<Item> Items = new List<Item>() { new Item("Batmobil", "luksusbil") };
+            List<BookingItem> expetedBookingItem = new List<BookingItem>();
 
-        //    // Act
-        //    Booking actualBooking = await bookingService.GetBookingByKeyAsync(3);
+            foreach (var item in Items) // Nyt
+            {
+                expetedBookingItem.Add(new BookingItem() { Item = item });
+            }
 
-        //    // Assert
-        //    Assert.AreEqual(expectedDetials, actualBooking.Details);
+            // Act
+            booking.BookingItems = expetedBookingItem;
+            booking.User = expecteUser;
+            await bookingService.UpdateBookingAsync(booking);
+            Booking actualBooking = await bookingService.GetBookingByKeyAsync(2);
 
-        //}
+            // Assert
+            Assert.AreEqual(expetedBookingItem, actualBooking.BookingItems);
+            Assert.AreEqual(expecteUser, actualBooking.User);
+        }
 
-        //[TestMethod]
-        //public async Task GetBookingByEmailAsync_ValidEmail_ReturnsBookingObject()
-        //{
-        //    //Arrange
-        //    string expectedEmail = "smelly@.com";
-        //    string expectedBookingDetails = "skal bruges i morgen";
-        //    Booking expecBooking = new Booking(new List<Item>() { new Item("RC car", "fjernstyret bil") }, new User("Simon", "smelly@.com", "1234"), "skal bruges i morgen", DateTime.Now, DateTime.Now);
-        //    List<Booking> expectedBookings = new List<Booking>() { expecBooking };
+        [TestMethod]
+        public async Task GetBookingByIdAsync_ValidId_ReturnsBookingObject()
+        {
+            //    string expectedDetials = "Details";
 
-        //    // Act
-        //    List<Booking> actualBookings = bookingService.GetBookingsByEmail(expectedEmail);
+            //    // Act
+            //    Booking actualBooking = await bookingService.GetBookingByKeyAsync(3);
 
-        //    // Assert
-        //    Assert.AreEqual(expectedBookings, expectedBookings);
-        //}
+            //    // Assert
+            //    Assert.AreEqual(expectedDetials, actualBooking.Details);
+
+              string expectedDetials = "Details";
+
+              // Act
+              Booking actualBooking = await bookingService.GetBookingByKeyAsync(2);
+              // Assert
+              Assert.AreEqual(expectedDetials, actualBooking.Details);
+
+        }
+
+        [TestMethod]
+        public async Task GetBookingByEmailAsync_ValidEmail_ReturnsBookingObject()
+        {
+            //Arrange
+            string expectedEmail = "smelly@.com";
+            string expectedBookingDetails = "skal bruges i morgen";
+            List<BookingItem> expetedBookingItem = new List<BookingItem>();
+            List<Item> Items = new List<Item>() {new Item("RC car", "fjernstyret bil")};
+
+            foreach (var item in Items) // Nyt
+            {
+                expetedBookingItem.Add(new BookingItem() { Item = item });
+            }
+
+            Booking expecBooking = new Booking(expetedBookingItem, new User("Simon", "smelly@.com", "1234"), "skal bruges i morgen", DateTime.Now, DateTime.Now);
+            List<Booking> expectedBookings = new List<Booking>() { expecBooking };
+
+            // Act
+            List<Booking> actualBookings = bookingService.GetBookingsByEmail(expectedEmail);
+
+            // Assert
+            Assert.AreEqual(expectedBookings, actualBookings);
+        }
 
 
         public class BookingMockData<T> : IDbService<T> where T : class

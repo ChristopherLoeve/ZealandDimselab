@@ -57,12 +57,12 @@ namespace ZealandDimselab.Services
         public List<Booking> GetBookingsByEmail(string email) // TODO Pretty sure this doesn't work
         {
             List<Booking> userBookings = new List<Booking>();
-            foreach (Booking booking in GetAllBookings())
+            List<Booking> test = GetAllBookings();
+            foreach (Booking booking in GetAllBookings().ToList())
             {
                 if (booking.User.Email.ToLower() == email.ToLower())
                 {
                     userBookings.Add(booking);
-                    
                 }
             }
             return userBookings;
