@@ -200,73 +200,73 @@ namespace ZealandDimselabTest
             // Assert
             Assert.IsNull(claimRole);
         }
+    }
+    internal class UserMockData<T> : IDbService<T> where T : class
+    {
+        private static List<User> _users;
+        private readonly PasswordHasher<string> passwordHasher;
+        DimselabDbContext dbContext;
 
-        internal class UserMockData<T> : IDbService<T> where T : class
+        public UserMockData()
         {
-            private static List<User> _users;
-            private readonly PasswordHasher<string> passwordHasher;
-            DimselabDbContext dbContext;
+            passwordHasher = new PasswordHasher<string>();
 
-                public UserMockData ()
-                {
-                passwordHasher = new PasswordHasher<string>();
-                    var options = new DbContextOptionsBuilder<DimselabDbContext>()
-                       .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                       .Options;
-                        dbContext = new DimselabDbContext(options);
-                LoadDatabase();
-                }
+            var options = new DbContextOptionsBuilder<DimselabDbContext>()
+               .UseInMemoryDatabase(Guid.NewGuid().ToString())
+               .Options;
+            dbContext = new DimselabDbContext(options);
+            LoadDatabase();
+        }
 
-            public async Task AddObjectAsync(T obj)
-            {
-                await dbContext.Set<T>().AddAsync(obj);
-                await dbContext.SaveChangesAsync();
-            }
+        public async Task AddObjectAsync(T obj)
+        {
+            await dbContext.Set<T>().AddAsync(obj);
+            await dbContext.SaveChangesAsync();
+        }
 
-            public async Task DeleteObjectAsync(T obj)
-            {
-                
-                dbContext.Set<T>().Remove(obj);
-                await dbContext.SaveChangesAsync();
-            }
+        public async Task DeleteObjectAsync(T obj)
+        {
 
-            public async Task<T> GetObjectByKeyAsync(int id)
-            {
-                return await dbContext.Set<T>().FindAsync(id);
-            }
+            dbContext.Set<T>().Remove(obj);
+            await dbContext.SaveChangesAsync();
+        }
 
-            public async Task<IEnumerable<T>> GetObjectsAsync()
-            {
-                return await dbContext.Set<T>().AsNoTracking().ToListAsync();
-            }
+        public async Task<T> GetObjectByKeyAsync(int id)
+        {
+            return await dbContext.Set<T>().FindAsync(id);
+        }
 
-            public async Task UpdateObjectAsync(T obj)
-            {
-                dbContext.Set<T>().Update(obj);
-                await dbContext.SaveChangesAsync();
-                
-            }
+        public async Task<IEnumerable<T>> GetObjectsAsync()
+        {
+            return await dbContext.Set<T>().AsNoTracking().ToListAsync();
+        }
 
-            public void DropDatabase()
-            {
-                dbContext.Database.EnsureDeleted();
-            }
+        public async Task UpdateObjectAsync(T obj)
+        {
+            dbContext.Set<T>().Update(obj);
+            await dbContext.SaveChangesAsync();
 
-            private void LoadDatabase()
-            {
-                dbContext.Users.Add(new User("Steven", "Steven@gmail.com", PasswordEncrypt("Steven1234")));
-                dbContext.Users.Add(new User("Mikkel", "Mikkel@gmail.com", PasswordEncrypt("Mikkel1234")));
-                dbContext.Users.Add(new User("Oscar", "Oscar@gmail.com", PasswordEncrypt("Oscar1234")));
-                dbContext.Users.Add(new User("Christopher", "Christopher@gmail.com", PasswordEncrypt("Christopher1234")));
-                dbContext.Users.Add(new User("Admin", "Admin@Dimselab", PasswordEncrypt("Admin1234")));
+        }
 
-                dbContext.SaveChangesAsync();
-            }
+        public void DropDatabase()
+        {
+            dbContext.Database.EnsureDeleted();
+        }
 
-            private string PasswordEncrypt(string password)
-            {
-                return passwordHasher.HashPassword(null, password);
-            }
+        private void LoadDatabase()
+        {
+            dbContext.Users.Add(new User("Steven", "Steven@gmail.com", PasswordEncrypt("Steven1234")));
+            dbContext.Users.Add(new User("Mikkel", "Mikkel@gmail.com", PasswordEncrypt("Mikkel1234")));
+            dbContext.Users.Add(new User("Oscar", "Oscar@gmail.com", PasswordEncrypt("Oscar1234")));
+            dbContext.Users.Add(new User("Christopher", "Christopher@gmail.com", PasswordEncrypt("Christopher1234")));
+            dbContext.Users.Add(new User("Admin", "Admin@Dimselab", PasswordEncrypt("Admin1234")));
+
+            dbContext.SaveChangesAsync();
+        }
+
+        private string PasswordEncrypt(string password)
+        {
+            return passwordHasher.HashPassword(null, password);
         }
     }
 }

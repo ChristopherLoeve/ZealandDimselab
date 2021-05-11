@@ -58,14 +58,10 @@ namespace ZealandDimselab.Pages.BookingPages
             else // If it does, append to that.
             {
                 int index = Exists(Cart, id);
-                if (index == -1) // if the item does not exists in the cart, append it.
+                if (index == -1) // if the item does not exists in the cart, add it.
                 {
                     Cart.Add( await itemService.GetItemByIdAsync(id) );
                 }
-                //else 
-                //{
-                //    Cart[index].Quantity++;
-                //}
                 SetCart(Cart);
             }
             return RedirectToPage("BookingCart");
@@ -91,15 +87,6 @@ namespace ZealandDimselab.Pages.BookingPages
             User user = userService.GetUserByEmail(HttpContext.User.Identity.Name);
             if (user != null)
             {
-                //Booking newBooking = new Booking()
-                //{
-                //    Items = new List<Item>(),
-                //    UserId =  user.Id,
-                //    Details = details,
-                //    BookingDate = DateTime.Now.Date,
-                //    ReturnDate = returnDate.Date
-                //};
-
                 var _booking = new Booking
                 {
                     Details = details,
@@ -139,7 +126,7 @@ namespace ZealandDimselab.Pages.BookingPages
                     return i;
                 }
             }
-            return -1;
+            return -1; // Means no item exist in the list.
         }
 
         /// <summary>

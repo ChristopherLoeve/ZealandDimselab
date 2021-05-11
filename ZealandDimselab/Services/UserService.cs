@@ -54,12 +54,12 @@ namespace ZealandDimselab.Services
             await UpdateObjectAsync(user);
         }
 
-        public bool ValidateLogin(string email, string password)
+        public bool ValidateLogin(string email, string providedPassword)
         {
             var user = GetUserByEmail(email);
             if (user != null)
             {
-                if (PasswordVerification(user.Password, password) == PasswordVerificationResult.Success) // Checks if password matches password.
+                if (PasswordVerification(user.Password, providedPassword) == PasswordVerificationResult.Success) // Checks if password matches password.
                 {
                     return true;
                 }

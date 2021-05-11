@@ -49,7 +49,7 @@ namespace ZealandDimselab
             // SERVICES END //
 
             // SESSION START //
-            services.AddSession(); // Giver mulighed for at gemme i brugerens cache.
+            services.AddSession(); // Giver mulighed for at gemme data i session's cache.
             // SESSION END
 
             // AUTHENTICATION START //
