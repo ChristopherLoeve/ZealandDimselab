@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ZealandDimselab.Models
 {
-    public class Booking
+    public class Booking : IObservable<Booking>
     {
         [Key]
         public int Id { get; set; }
@@ -47,8 +47,10 @@ namespace ZealandDimselab.Models
 
         }
 
-
-
-
+        public IDisposable Subscribe(IObserver<Booking> observer)
+        {
+            observer.OnNext(this);
+            return null;
+        }
     }
 }
