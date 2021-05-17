@@ -12,6 +12,7 @@ namespace ZealandDimselab.Services
     public class BookingService : GenericService<Booking>
     {
         private UserService UserService;
+        private Notifications Notifications;
 
         public BookingService(IDbService<Booking> dbService) : base(dbService)
         {
@@ -41,6 +42,8 @@ namespace ZealandDimselab.Services
 
         public async Task AddBookingAsync(Booking booking)
         {
+            string notifycation = $@"A new booking for {booking.ToString()} has been added";
+            Notifications.StringNotifycations.Add(notifycation);
             await AddObjectAsync(booking);
         }
 

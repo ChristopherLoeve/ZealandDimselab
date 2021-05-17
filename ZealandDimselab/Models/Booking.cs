@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace ZealandDimselab.Models
 {
@@ -48,7 +49,15 @@ namespace ZealandDimselab.Models
         }
 
 
+        public override string ToString()
+        {
+            string notification = "";
+            foreach (var booking in BookingItems)
+            {
+                notification += booking.Item.Name + ", ";
+            }
 
-
+            return notification;
+        }
     }
 }
