@@ -10,11 +10,13 @@ namespace ZealandDimselab.Models
     public class Notifications
     {
         [Key] [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  public int Id { get; set; }
-        public List<string> StringNotifycations { get; set; }
+        public int BookingId { get; set; }
+        [ForeignKey("BookingId")] public Booking Booking { get; set; }
+        public bool Seen { get; set; }
 
-        public Notifications(List<string> stringNotifycations)
+        public Notifications()
         {
-            StringNotifycations = stringNotifycations;
+            
         }
 
 

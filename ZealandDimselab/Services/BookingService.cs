@@ -42,8 +42,6 @@ namespace ZealandDimselab.Services
 
         public async Task AddBookingAsync(Booking booking)
         {
-            string notifycation = $@"A new booking for {booking.ToString()} has been added";
-            Notifications.StringNotifycations.Add(notifycation);
             await AddObjectAsync(booking);
         }
 
