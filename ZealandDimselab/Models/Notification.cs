@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace ZealandDimselab.Models
 {
-    public class Notifications
+    public class Notification
     {
         [Key] [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  public int Id { get; set; }
         public int BookingId { get; set; }
         [ForeignKey("BookingId")] public Booking Booking { get; set; }
         public bool Seen { get; set; }
 
-        public Notifications()
+        public Notification()
         {
             
         }

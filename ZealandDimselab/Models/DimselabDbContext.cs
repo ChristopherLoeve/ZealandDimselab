@@ -13,7 +13,7 @@ namespace ZealandDimselab.Models
         public DbSet<Item> Items { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Notifications> Notifications { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
         public DbSet<BookingItem> BookingItems { get; set; }
 
         public DimselabDbContext()
