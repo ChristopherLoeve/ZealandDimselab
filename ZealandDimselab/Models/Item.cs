@@ -13,6 +13,7 @@ namespace ZealandDimselab.Models
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
+        [Required] public int Quantity { get; set; }
 
         public ICollection<BookingItem> BookingItems { get; set; }
 

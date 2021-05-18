@@ -111,7 +111,7 @@ namespace ZealandDimselab.Pages.BookingPages
 
                 foreach (var item in Cart)
                 {
-                    _booking.BookingItems.Add(new BookingItem { ItemId = item.Id }); 
+                    _booking.BookingItems.Add(new BookingItem { ItemId = item.Id });
                 }
                 await bookingService.AddBookingAsync(_booking);
             }
