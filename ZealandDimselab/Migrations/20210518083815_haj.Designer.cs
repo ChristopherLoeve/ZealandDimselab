@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZealandDimselab.Models;
 
 namespace ZealandDimselab.Migrations
 {
     [DbContext(typeof(DimselabDbContext))]
-    partial class DimselabDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210518083815_haj")]
+    partial class haj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +33,6 @@ namespace ZealandDimselab.Migrations
 
                     b.Property<string>("Details")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NotificationId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("ReturnDate")
                         .HasColumnType("datetime2");
@@ -126,8 +125,7 @@ namespace ZealandDimselab.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookingId")
-                        .IsUnique();
+                    b.HasIndex("BookingId");
 
                     b.ToTable("Notifications");
                 });
@@ -203,8 +201,8 @@ namespace ZealandDimselab.Migrations
             modelBuilder.Entity("ZealandDimselab.Models.Notification", b =>
                 {
                     b.HasOne("ZealandDimselab.Models.Booking", "Booking")
-                        .WithOne("Notification")
-                        .HasForeignKey("ZealandDimselab.Models.Notification", "BookingId")
+                        .WithMany()
+                        .HasForeignKey("BookingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -214,8 +212,6 @@ namespace ZealandDimselab.Migrations
             modelBuilder.Entity("ZealandDimselab.Models.Booking", b =>
                 {
                     b.Navigation("BookingItems");
-
-                    b.Navigation("Notification");
                 });
 
             modelBuilder.Entity("ZealandDimselab.Models.Item", b =>

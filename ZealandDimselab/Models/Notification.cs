@@ -9,9 +9,12 @@ namespace ZealandDimselab.Models
 {
     public class Notification
     {
-        [Key] [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  public int Id { get; set; }
+        [Key] [DatabaseGenerated(DatabaseGeneratedOption.Identity)] public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int BookingId { get; set; }
-        [ForeignKey("BookingId")] public Booking Booking { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [ForeignKey("BookingId")]
+        public Booking Booking { get; set; }
         public bool Seen { get; set; }
 
         public Notification()

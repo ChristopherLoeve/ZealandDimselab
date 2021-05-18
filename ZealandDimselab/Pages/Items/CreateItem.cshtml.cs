@@ -19,6 +19,7 @@ namespace ZealandDimselab.Pages.Items
         public List<Category> Categories { get; set; }
         [BindProperty] public int CategoryId { get; set; }
 
+
         public CreateItemModel(ItemService itemService, CategoryService categoryService)
         {
             this.itemService = itemService;

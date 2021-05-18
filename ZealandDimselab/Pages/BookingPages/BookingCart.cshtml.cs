@@ -18,15 +18,17 @@ namespace ZealandDimselab.Pages.BookingPages
         private readonly UserService userService;
         private readonly ItemService itemService;
         private readonly BookingService bookingService;
+        private readonly NotificationService notificationService;
 
         [BindProperty]
         public List<Item> CheckoutItems { get; set; }
 
-        public BookingCartModel(UserService userService, BookingService bookingService, ItemService itemService)
+        public BookingCartModel(UserService userService, BookingService bookingService, ItemService itemService, NotificationService notificationService)
         {
             this.userService = userService;
             this.itemService = itemService;
             this.bookingService = bookingService;
+            this.notificationService = notificationService;
         }
 
         public void OnGet()
@@ -105,7 +107,7 @@ namespace ZealandDimselab.Pages.BookingPages
                     Details = details,
                     BookingDate = DateTime.Now.Date,
                     ReturnDate = returnDate.Date,
-                    UserId = user.Id,
+                    User = user,
                     BookingItems = new List<BookingItem>()
                 };
 
@@ -113,6 +115,7 @@ namespace ZealandDimselab.Pages.BookingPages
                 {
                     _booking.BookingItems.Add(new BookingItem { ItemId = item.Id }); 
                 }
+                await notificationService.AddNotification(_booking);
                 await bookingService.AddBookingAsync(_booking);
             }
             return RedirectToPage("MyBookings");
