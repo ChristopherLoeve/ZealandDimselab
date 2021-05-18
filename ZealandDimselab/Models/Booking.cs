@@ -19,6 +19,9 @@ namespace ZealandDimselab.Models
         public string Details { get; set; }
         [Required] public DateTime BookingDate { get; set; }
         [Required] public DateTime ReturnDate { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int NotificationId { get; set; }
+        public Notification Notification { get; set; }
 
 
 
