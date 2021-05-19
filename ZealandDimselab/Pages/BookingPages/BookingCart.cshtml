@@ -43,7 +43,11 @@
                     <td>PlaceHolder</td>
                     <td>@item.Name</td>
                     <td>@item.Description</td>
-                    <td>Placeholder</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="number" name="quantity" class="form-control"/>
+                        </div>
+                    </td>
                     <td>
                         <button type="submit" class="btn btn-primary btn-lg" asp-page-handler="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></button>
                     </td>

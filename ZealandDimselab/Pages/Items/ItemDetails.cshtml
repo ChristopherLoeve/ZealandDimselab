@@ -58,6 +58,11 @@
             </th>
             <th>
                 <div class="d-flex justify-content-between p-0">
+                    <div><h5>Quantity</h5></div>
+                </div>
+            </th>
+            <th>
+                <div class="d-flex justify-content-between p-0">
                     <div><h5>Actions</h5></div>
                 </div>
             </th>
@@ -67,49 +72,52 @@
     <tbody>
         @foreach (var item in Model.Items)
         {
-            <tr class="btn-secondary">
-                @if (HttpContext.User.Identity.Name != null)
+        <tr class="btn-secondary">
+            @if (HttpContext.User.Identity.Name != null)
+            {
+                if (HttpContext.User.Identity.Name.Equals("Admin@Dimselab.dk"))
                 {
-                    if (HttpContext.User.Identity.Name.Equals("Admin@Dimselab.dk"))
-                    {
-                        <td>
-                            @item.Id
-                        </td>
-                    }
+                    <td>
+                        @item.Id
+                    </td>
                 }
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @item.Description
-                    @if (item.Category != null)
+            }
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Description
+                @if (item.Category != null)
+                {
+                    <p>Category:  @item.Category.CategoryName</p>
+                }
+            </td>
+            <td>
+                @item.Quantity
+            </td>
+            <td>
+                <ol class="p-0">
+                    <li class="list-inline-item">
+                        <a class="btn btn-info btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Details" asp-page="ItemDetails" asp-route-id="@item.Id" asp-page-handler="FilterByCategory" asp-route-category="@Model.CategoryId"><i class="fa fa-search-plus"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="btn btn-info btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Add To Cart" asp-page="../BookingPages/BookingCart" asp-route-id="@item.Id" asp-page-handler="AddToCart"><i class="fa fa-cart-plus"></i></a>
+                    </li>
+                    @if (HttpContext.User.Identity.Name != null) // Only shows edit/delete if logged in as admin
                     {
-                        <p>Category:  @item.Category.CategoryName</p>
-                    }
-                </td>
-                <td>
-                    <ol class="p-0">
-                        <li class="list-inline-item">
-                            <a class="btn btn-info btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Details" asp-page="ItemDetails" asp-route-id="@item.Id" asp-page-handler="FilterByCategory" asp-route-category="@Model.CategoryId"><i class="fa fa-search-plus"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="btn btn-info btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Add To Cart" asp-page="../BookingPages/BookingCart" asp-route-id="@item.Id" asp-page-handler="AddToCart"><i class="fa fa-cart-plus"></i></a>
-                        </li>
-                        @if (HttpContext.User.Identity.Name != null) // Only shows edit/delete if logged in as admin
+                        if (HttpContext.User.Identity.Name.Equals("Admin@Dimselab.dk"))
                         {
-                            if (HttpContext.User.Identity.Name.Equals("Admin@Dimselab.dk"))
-                            {
-                                <li class="list-inline-item">
-                                    <a class="btn btn-warning btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Edit" asp-page="EditItem" asp-route-id="@item.Id" asp-page-handler="FilterByCategory" asp-route-category="@Model.CategoryId"><i class="fa fa-edit"></i></a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a class="btn btn-danger btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Delete" asp-page="DeleteItem" asp-route-id="@item.Id" asp-page-handler="FilterByCategory" asp-route-category="@Model.CategoryId"><i class="fa fa-trash"></i></a>
-                                </li>
-                            }
+                            <li class="list-inline-item">
+                                <a class="btn btn-warning btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Edit" asp-page="EditItem" asp-route-id="@item.Id" asp-page-handler="FilterByCategory" asp-route-category="@Model.CategoryId"><i class="fa fa-edit"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="btn btn-danger btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Delete" asp-page="DeleteItem" asp-route-id="@item.Id" asp-page-handler="FilterByCategory" asp-route-category="@Model.CategoryId"><i class="fa fa-trash"></i></a>
+                            </li>
                         }
-                    </ol>
-                </td>
-            </tr>
+                    }
+                </ol>
+            </td>
+        </tr>
         }
     </tbody>
 
@@ -129,6 +137,9 @@
             <div class="modal-body">
                 <p><b>Description:</b></p>
                 <p style="white-space: pre-line">@Model.Item.Description</p>
+                
+                <p><b>Quantity:</b></p>
+                <p style="white-space: pre-line">@Model.Item.Quantity</p>
 
                 <p><b>Category:</b></p>
                 <p style="white-space: pre-line">@Model.Item.Category.CategoryName</p>
