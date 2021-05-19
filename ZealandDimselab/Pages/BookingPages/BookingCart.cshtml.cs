@@ -107,7 +107,7 @@ namespace ZealandDimselab.Pages.BookingPages
                     Details = details,
                     BookingDate = DateTime.Now.Date,
                     ReturnDate = returnDate.Date,
-                    User = user,
+                    UserId = user.Id,
                     BookingItems = new List<BookingItem>()
                 };
 
@@ -115,7 +115,7 @@ namespace ZealandDimselab.Pages.BookingPages
                 {
                     _booking.BookingItems.Add(new BookingItem { ItemId = item.Id }); 
                 }
-                await notificationService.AddNotification(_booking);
+                //await notificationService.AddNotification(_booking);
                 await bookingService.AddBookingAsync(_booking);
             }
             return RedirectToPage("MyBookings");
