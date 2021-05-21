@@ -18,6 +18,7 @@ namespace ZealandDimselab.Pages.BookingPages
         private readonly UserService userService;
         private readonly ItemService itemService;
         private readonly BookingService bookingService;
+        public string ErrorMessage { get; set; }
 
         [BindProperty]
         public List<Item> CheckoutItems { get; set; }
@@ -71,6 +72,18 @@ namespace ZealandDimselab.Pages.BookingPages
             return Page();
         }
 
+        public IActionResult OnGetError()
+        {
+            Cart = GetCart();
+            if (Cart == null)
+            {
+                Cart = new List<Item>();
+            }
+
+            ErrorMessage = "Error";
+            return Page();
+        }
+
         /// <summary>
         /// Deletes the item from the cart storage.
         /// </summary>
@@ -90,6 +103,10 @@ namespace ZealandDimselab.Pages.BookingPages
             Cart = GetCart();
             for (var i = 0; i < Cart.Count; i++)
             {
+                if (quantities[i] > Cart[i].Stock)
+                {
+                    return OnGetError();
+                }
                 Cart[i].BookingQuantity = quantities[i];
             }
             SetCart(Cart);

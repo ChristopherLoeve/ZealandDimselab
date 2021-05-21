@@ -2,9 +2,18 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Permissions;
 
 namespace ZealandDimselab.Models
 {
+    public class BookingQuantityLessThanStock : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            Item item = (Item)value;
+            return item.BookingQuantity <= item.Stock;
+        }
+    }
     public class Item
     {
         [Key][DatabaseGenerated(DatabaseGeneratedOption.Identity)] public int Id { get; set; }
@@ -18,6 +27,7 @@ namespace ZealandDimselab.Models
         [Required] public int Stock { get; set; }
         private int _bookingQuantity;
         [NotMapped]
+        [BookingQuantityLessThanStock(ErrorMessage = "Quantity can not be more than what is currently in stock")]
         public int BookingQuantity
         {
             get { return _bookingQuantity; }
