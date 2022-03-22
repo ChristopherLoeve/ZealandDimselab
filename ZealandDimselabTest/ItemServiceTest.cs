@@ -16,7 +16,7 @@ namespace ZealandDimselabTest
     [TestClass]
     public class ItemServiceTest
     {
-        //private MockData _repositoryItem;
+        private MockData _repositoryItem;
         private ItemService _itemService;
         private List<Item> _itemList;
 
@@ -26,9 +26,8 @@ namespace ZealandDimselabTest
             //_repositoryItem = new MockData<Item>();
             //_itemService = new ItemService(_repositoryItem, new ItemDbService());
 
-            //_repositoryItem = new DimselabDbContext();
-            //_itemService = new ItemService(_repositoryItem);
-            _itemService = new ItemService();
+            _repositoryItem = new MockData();
+            _itemService = new ItemService(_repositoryItem);
             _itemList = _itemService.GetAllItems().Result.ToList();
         }
 
@@ -135,108 +134,108 @@ namespace ZealandDimselabTest
             Assert.AreEqual(6, _itemService.GetAllItems().Result.ToList().Count);
         }
 
-        //internal class MockData : IItemDb
-        //{
-        //    DimselabDbContext dbContext;
+        internal class MockData : IItemDb
+        {
+            DimselabDbContext dbContext;
 
-        //    public MockData()
-        //    {
-        //        var options = new DbContextOptionsBuilder<DimselabDbContext>()
-        //           .UseInMemoryDatabase(Guid.NewGuid().ToString())
-        //           .Options;
-        //        dbContext = new DimselabDbContext(options);
-        //        LoadDatabase();
-        //    }
+            public MockData()
+            {
+                var options = new DbContextOptionsBuilder<DimselabDbContext>()
+                   .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                   .Options;
+                dbContext = new DimselabDbContext(options);
+                LoadDatabase();
+            }
 
-        //    public async Task<Item> GetItemWithCategoriesAsync(int id)
-        //    {
-        //        Item item;
+            public async Task<Item> GetItemWithCategoriesAsync(int id)
+            {
+                Item item;
 
-        //        using (var context = new DimselabDbContext())
-        //        {
-        //            item = await context.Items
-        //                .Include(i => i.Category)
-        //                .Where(i => i.Id == id)
-        //                .FirstOrDefaultAsync();
-        //        }
+                using (var context = new DimselabDbContext())
+                {
+                    item = await context.Items
+                        .Include(i => i.Category)
+                        .Where(i => i.Id == id)
+                        .FirstOrDefaultAsync();
+                }
 
-        //        return item;
-        //    }
+                return item;
+            }
 
-        //    public async Task<List<Item>> GetAllItemsWithCategoriesAsync()
-        //    {
-        //        List<Item> items;
+            public async Task<List<Item>> GetAllItemsWithCategoriesAsync()
+            {
+                List<Item> items;
 
-        //        using (var context = new DimselabDbContext())
-        //        {
-        //            items = await context.Items
-        //                .Include(i => i.Category)
-        //                .ToListAsync();
+                using (var context = new DimselabDbContext())
+                {
+                    items = await context.Items
+                        .Include(i => i.Category)
+                        .ToListAsync();
 
 
-        //        }
+                }
 
-        //        return items;
-        //    }
+                return items;
+            }
 
-        //    public async Task<List<Item>> GetItemsWithCategoryId(int id)
-        //    {
-        //        List<Item> items;
+            public async Task<List<Item>> GetItemsWithCategoryId(int id)
+            {
+                List<Item> items;
 
-        //        using (var context = new DimselabDbContext())
-        //        {
-        //            items = await context.Items
-        //                .Include(i => i.Category)
-        //                .Where(i => i.CategoryId == id)
-        //                .ToListAsync();
-        //        }
+                using (var context = new DimselabDbContext())
+                {
+                    items = await context.Items
+                        .Include(i => i.Category)
+                        .Where(i => i.CategoryId == id)
+                        .ToListAsync();
+                }
 
-        //        return items;
-        //    }
+                return items;
+            }
 
-        //    public async Task<IEnumerable<Item>> GetObjectsAsync()
-        //    {
-        //        return await dbContext.Set<Item>().AsNoTracking().ToListAsync();
-        //    }
+            public async Task<IEnumerable<Item>> GetObjectsAsync()
+            {
+                return await dbContext.Set<Item>().AsNoTracking().ToListAsync();
+            }
 
-        //    public async Task<Item> GetObjectByKeyAsync(int id)
-        //    {
-        //        return await dbContext.Set<Item>().FindAsync(id);
-        //    }
+            public async Task<Item> GetObjectByKeyAsync(int id)
+            {
+                return await dbContext.Set<Item>().FindAsync(id);
+            }
 
-        //    public async Task AddObjectAsync(Item obj)
-        //    {
-        //        await dbContext.Set<Item>().AddAsync(obj);
-        //        await dbContext.SaveChangesAsync();
-        //    }
+            public async Task AddObjectAsync(Item obj)
+            {
+                await dbContext.Set<Item>().AddAsync(obj);
+                await dbContext.SaveChangesAsync();
+            }
 
-        //    public async Task DeleteObjectAsync(Item obj)
-        //    {
-        //        dbContext.Set<Item>().Remove(obj);
-        //        await dbContext.SaveChangesAsync();
-        //    }
+            public async Task DeleteObjectAsync(Item obj)
+            {
+                dbContext.Set<Item>().Remove(obj);
+                await dbContext.SaveChangesAsync();
+            }
 
-        //    public async Task UpdateObjectAsync(Item obj)
-        //    {
-        //        dbContext.Set<Item>().Update(obj);
-        //        await dbContext.SaveChangesAsync();
-        //    }
+            public async Task UpdateObjectAsync(Item obj)
+            {
+                dbContext.Set<Item>().Update(obj);
+                await dbContext.SaveChangesAsync();
+            }
 
-        //public void DropDatabase()
-        //    {
-        //        dbContext.Database.EnsureDeleted();
-        //    }
+        public void DropDatabase()
+            {
+                dbContext.Database.EnsureDeleted();
+            }
 
-        //    private void LoadDatabase()
-        //    {
-        //        dbContext.Items.Add(new Item("Test Item 1", "Test Description"));
-        //        dbContext.Items.Add(new Item("Test Item 2", "Test Description"));
-        //        dbContext.Items.Add(new Item("Test Item 3", "Test Description"));
-        //        dbContext.Items.Add(new Item("Test Item 4", "Test Description"));
-        //        dbContext.Items.Add(new Item("Test Item 5", "Test Description"));
+            private void LoadDatabase()
+            {
+                dbContext.Items.Add(new Item("Test Item 1", "Test Description"));
+                dbContext.Items.Add(new Item("Test Item 2", "Test Description"));
+                dbContext.Items.Add(new Item("Test Item 3", "Test Description"));
+                dbContext.Items.Add(new Item("Test Item 4", "Test Description"));
+                dbContext.Items.Add(new Item("Test Item 5", "Test Description"));
 
-        //        dbContext.SaveChangesAsync();
-        //    }
-        //}
+                dbContext.SaveChangesAsync();
+            }
+        }
     }
 }

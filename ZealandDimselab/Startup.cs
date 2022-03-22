@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,9 +32,7 @@ namespace ZealandDimselab
 
 
             // DATABASE START //
-            services.AddDbContext<DimselabDbContext>(options => {
-                options.UseSqlServer(Configuration.GetConnectionString("Default"));
-                });
+            services.AddDbContext<DimselabDbContext>();
             services.AddTransient<IItemDb, ItemDbService>();
             services.AddScoped<IDbService<User>, GenericDbService<User>>();
             services.AddTransient<IDbService<Category>, GenericDbService<Category>>();
