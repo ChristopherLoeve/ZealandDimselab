@@ -8,53 +8,66 @@ using ZealandDimselab.Interfaces;
 
 namespace ZealandDimselab.Services
 {
-    public class ItemDbService: GenericDbService<Item>, IItemDb
+    public class ItemDbService : GenericDbService<Item>, IItemDb
     {
-        public async Task<Item> GetItemWithCategoriesAsync(int id)
+        //public async Task<Item> GetItemWithCategoriesAsync(int id)
+        //{
+        //    Item item;
+
+        //    using (var context = new DimselabDbContext())
+        //    {
+        //        item = await context.Items
+        //            .Include(i => i.Category)
+        //            .Where(i => i.Id == id)
+        //            .FirstOrDefaultAsync();
+        //    }
+
+        //    return item;
+        //}
+
+        //public async Task<List<Item>> GetAllItemsWithCategoriesAsync()
+        //{
+        //    List<Item> items;
+
+        //    using (var context = new DimselabDbContext())
+        //    {
+        //        items = await context.Items
+        //            .Include(i => i.Category)
+        //            .ToListAsync();
+
+
+        //    }
+
+        //    return items;
+        //}
+
+        //public async Task<List<Item>> GetItemsWithCategoryId(int id)
+        //{
+        //    List<Item> items;
+
+        //    using (var context = new DimselabDbContext())
+        //    {
+        //        items = await context.Items
+        //            .Include(i => i.Category)
+        //            .Where(i => i.CategoryId == id)
+        //            .ToListAsync();
+        //    }
+
+        //    return items;
+        //}
+        public Task<List<Item>> GetAllItemsWithCategoriesAsync()
         {
-            Item item;
-
-            using (var context = new DimselabDbContext())
-            {
-                item = await context.Items
-                    .Include(i => i.Category)
-                    .Where(i => i.Id == id)
-                    .FirstOrDefaultAsync();
-            }
-
-            return item;
+            throw new NotImplementedException();
         }
 
-        public async Task<List<Item>> GetAllItemsWithCategoriesAsync()
+        public Task<List<Item>> GetItemsWithCategoryId(int id)
         {
-            List<Item> items;
-
-            using (var context = new DimselabDbContext())
-            {
-                items = await context.Items
-                    .Include(i => i.Category)
-                    .ToListAsync();
-
-
-            }
-
-            return items;
+            throw new NotImplementedException();
         }
 
-        public async Task<List<Item>> GetItemsWithCategoryId(int id)
+        public Task<Item> GetItemWithCategoriesAsync(int id)
         {
-            List<Item> items;
-
-            using (var context = new DimselabDbContext())
-            {
-                items = await context.Items
-                    .Include(i => i.Category)
-                    .Where(i => i.CategoryId == id)
-                    .ToListAsync();
-            }
-
-            return items;
+            throw new NotImplementedException();
         }
-
     }
 }

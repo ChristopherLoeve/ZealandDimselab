@@ -194,7 +194,7 @@ namespace ZealandDimselabTest
                 var options = new DbContextOptionsBuilder<DimselabDbContext>()
                        .UseInMemoryDatabase(Guid.NewGuid().ToString()).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                        .Options;
-                dbContext = new DimselabDbContext(options);
+                //dbContext = new DimselabDbContext(options);
                 LoadDatabase();
 
                 //dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;

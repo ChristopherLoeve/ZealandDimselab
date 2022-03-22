@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ZealandDimselab.Models;
 
 namespace ZealandDimselab.Models
@@ -15,25 +16,13 @@ namespace ZealandDimselab.Models
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<BookingItem> BookingItems { get; set; }
 
-        public DimselabDbContext()
-        {
-            
-        }
 
-        
-        public DimselabDbContext(DbContextOptions<DimselabDbContext> options) : base(options)
+
+        public DimselabDbContext(DbContextOptions options) : base(options)
         {
 
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            if (!options.IsConfigured) // If no options provided by DimselabDbContext constructor, use this:
-            {
-                options.UseSqlServer(@"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = DimseLabTest; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
-                //options.UseSqlServer(@"Server=tcp:dimselab.database.windows.net,1433;Initial Catalog=dimselabDb;Persist Security Info=False;User ID=dimselabadmin;Password=516zVIbTxK5T;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

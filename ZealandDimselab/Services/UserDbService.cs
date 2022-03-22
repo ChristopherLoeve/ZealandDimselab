@@ -9,20 +9,29 @@ namespace ZealandDimselab.Services
 {
     public class UserDbService : GenericDbService<User>, IUserDb
     {
-        public async Task<bool> DoesEmailExist(string email)
+        //public async Task<bool> DoesEmailExist(string email)
+        //{
+        //    await using (var context = new DimselabDbContext())
+        //    {
+        //        return context.Users.Any(u => u.Email.ToLower() == email.ToLower());
+        //    }
+        //}
+
+        //public async Task<User> GetUserByEmail(string email)
+        //{
+        //    await using (var context = new DimselabDbContext())
+        //    {
+        //        return context.Users.SingleOrDefault(u => u.Email.ToLower() == email.ToLower());
+        //    }
+        //}
+        public Task<bool> DoesEmailExist(string email)
         {
-            await using (var context = new DimselabDbContext())
-            {
-                return context.Users.Any(u => u.Email.ToLower() == email.ToLower());
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task<User> GetUserByEmail(string email)
+        public Task<User> GetUserByEmail(string email)
         {
-            await using (var context = new DimselabDbContext())
-            {
-                return context.Users.SingleOrDefault(u => u.Email.ToLower() == email.ToLower());
-            }
+            throw new NotImplementedException();
         }
     }
 }
